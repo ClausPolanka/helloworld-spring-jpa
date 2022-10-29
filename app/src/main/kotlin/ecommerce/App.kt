@@ -3,6 +3,22 @@
  */
 package ecommerce
 
+import org.springframework.context.annotation.Bean
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.data.repository.CrudRepository
+import org.springframework.jdbc.datasource.DriverManagerDataSource
+import org.springframework.orm.jpa.JpaTransactionManager
+import org.springframework.orm.jpa.JpaVendorAdapter
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+import org.springframework.orm.jpa.vendor.Database
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+import java.util.*
+import javax.persistence.Entity
+import javax.persistence.EntityManagerFactory
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.sql.DataSource
+
 class App {
     val greeting: String
         get() {
@@ -13,3 +29,55 @@ class App {
 fun main() {
     println(App().greeting)
 }
+
+@EnableJpaRepositories("ecommerce")
+class SpringConfiguration {
+
+    @Bean
+    fun dataSource(): DataSource {
+        val ds = DriverManagerDataSource()
+        ds.setDriverClassName("org.postgresql.Driver")
+        ds.url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=java_persistence"
+        ds.username = "postgres"
+        ds.password = "Welcome"
+        return ds
+    }
+
+    @Bean
+    fun transactionManager(emf: EntityManagerFactory): JpaTransactionManager {
+        return JpaTransactionManager(emf)
+    }
+
+    /**
+     * Needed by JPA to interact with Hibernate.
+     */
+    @Bean
+    fun jpaVendorAdapter(): JpaVendorAdapter {
+        val adapter = HibernateJpaVendorAdapter()
+        adapter.setDatabase(Database.POSTGRESQL)
+        adapter.setShowSql(true)
+        return adapter
+    }
+
+    @Bean
+    fun entityManagerFactory(ds: DataSource, vendor: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
+        val container = LocalContainerEntityManagerFactoryBean()
+        container.dataSource = ds
+        val props = Properties()
+        props["hibernate.hbm2ddl.auto"] = "create"
+        container.setJpaProperties(props)
+        container.jpaVendorAdapter = vendor
+        container.setPackagesToScan("ecommerce")
+        return container
+    }
+}
+
+@Entity
+class Message(
+    @Id
+    @GeneratedValue
+    val id: Long? = null,
+    var text: String,
+)
+
+interface MessageRepo : CrudRepository<Message, Long>

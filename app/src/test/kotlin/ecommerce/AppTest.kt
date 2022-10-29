@@ -3,12 +3,35 @@
  */
 package ecommerce
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.function.Executable
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(classes = [SpringConfiguration::class])
 class AppTest {
-    @Test fun appHasAGreeting() {
+
+    @Autowired
+    lateinit var repo: MessageRepo
+
+    @Test
+    fun appHasAGreeting() {
         val classUnderTest = App()
         assertNotNull(classUnderTest.greeting, "app should have a greeting")
+    }
+
+    @Test
+    fun storeLoadMessage() {
+        val msg = Message(text = "before")
+        repo.save(msg)
+        val msgs = repo.findAll().toList()
+        assertAll(
+            Executable { assertEquals(1, msgs.size) },
+            Executable { assertEquals("before", msgs[0].text) },
+        )
     }
 }
