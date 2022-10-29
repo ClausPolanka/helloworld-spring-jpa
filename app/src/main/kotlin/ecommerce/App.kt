@@ -43,6 +43,10 @@ class SpringConfiguration {
         return ds
     }
 
+    /**
+     * We create a transaction manager bean based on an entity manager factory. Every interaction with the database
+     * should occur within transaction boundaries and Spring Data needs a transaction manager bean.
+     */
     @Bean
     fun transactionManager(emf: EntityManagerFactory): JpaTransactionManager {
         return JpaTransactionManager(emf)
