@@ -30,7 +30,7 @@ fun main() {
     println(App().greeting)
 }
 
-@EnableJpaRepositories("ecommerce")
+@EnableJpaRepositories
 class SpringConfiguration {
 
     @Bean
