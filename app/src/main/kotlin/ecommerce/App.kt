@@ -37,9 +37,9 @@ class SpringConfiguration {
     fun dataSource(): DataSource {
         val ds = DriverManagerDataSource()
         ds.setDriverClassName("org.postgresql.Driver")
-        ds.url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=java_persistence"
+        ds.url = "jdbc:postgresql://localhost:5433/postgres?currentSchema=java_persistence"
         ds.username = "postgres"
-        ds.password = "Welcome"
+        ds.password = "mysecret"
         return ds
     }
 
