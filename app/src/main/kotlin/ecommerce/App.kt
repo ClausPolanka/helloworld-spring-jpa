@@ -3,6 +3,10 @@
  */
 package ecommerce
 
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityManagerFactory
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
 import org.springframework.context.annotation.Bean
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.data.repository.CrudRepository
@@ -13,10 +17,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.Database
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EntityManagerFactory
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
 import javax.sql.DataSource
 
 class App {
