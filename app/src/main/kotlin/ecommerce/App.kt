@@ -27,52 +27,48 @@ fun main() {
 class SpringConfiguration {
 
     @Bean
-    fun dataSource(): DataSource {
-        val ds = DriverManagerDataSource()
-        ds.setDriverClassName("org.postgresql.Driver")
-        ds.url = "jdbc:postgresql://localhost:5433/postgres?currentSchema=helloworld_spring_jpa"
-        ds.username = "postgres"
-        ds.password = "mysecret"
-        return ds
-    }
+    fun dataSource(): DataSource =
+        DriverManagerDataSource().apply {
+            setDriverClassName("org.postgresql.Driver")
+            url = "jdbc:postgresql://localhost:5433/postgres?currentSchema=helloworld_spring_jpa"
+            username = "postgres"
+            password = "mysecret"
+        }
 
     /**
      * We create a transaction manager bean based on an entity manager factory. Every interaction with the database
      * should occur within transaction boundaries and Spring Data needs a transaction manager bean.
      */
     @Bean
-    fun transactionManager(emf: EntityManagerFactory): JpaTransactionManager {
-        return JpaTransactionManager(emf)
-    }
+    fun transactionManager(emf: EntityManagerFactory) =
+        JpaTransactionManager(emf)
 
     /**
      * Needed by JPA to interact with Hibernate.
      */
     @Bean
-    fun jpaVendorAdapter(): JpaVendorAdapter {
-        val adapter = object : HibernateJpaVendorAdapter() {
+    fun jpaVendorAdapter(): JpaVendorAdapter =
+        object : HibernateJpaVendorAdapter() {
             override fun determineDatabaseDialectClass(database: Database): Class<*>? =
                 when (database) {
                     Database.POSTGRESQL -> PostgreSQLDialect::class.java
                     else -> super.determineDatabaseDialectClass(database)
                 }
+        }.apply {
+            setDatabase(Database.POSTGRESQL)
+            setShowSql(true)
         }
-        adapter.setDatabase(Database.POSTGRESQL)
-        adapter.setShowSql(true)
-        return adapter
-    }
 
     @Bean
-    fun entityManagerFactory(ds: DataSource, vendor: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
-        val container = LocalContainerEntityManagerFactoryBean()
-        container.dataSource = ds
-        container.jpaVendorAdapter = vendor
-        container.setPackagesToScan("ecommerce")
-        val props = Properties()
-        props["hibernate.hbm2ddl.auto"] = "create"
-        container.setJpaProperties(props)
-        return container
-    }
+    fun entityManagerFactory(ds: DataSource, vendor: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean =
+        LocalContainerEntityManagerFactoryBean().apply {
+            dataSource = ds
+            jpaVendorAdapter = vendor
+            setPackagesToScan("ecommerce")
+            val props = Properties()
+            props["hibernate.hbm2ddl.auto"] = "create"
+            setJpaProperties(props)
+        }
 }
 
 @Entity
