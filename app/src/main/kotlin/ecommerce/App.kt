@@ -1,7 +1,6 @@
 package ecommerce
 
 import jakarta.persistence.*
-import org.hibernate.dialect.PostgreSQLDialect
 import org.springframework.context.annotation.Bean
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.data.repository.CrudRepository
@@ -48,13 +47,7 @@ class SpringConfiguration {
      */
     @Bean
     fun jpaVendorAdapter(): JpaVendorAdapter =
-        object : HibernateJpaVendorAdapter() {
-            override fun determineDatabaseDialectClass(database: Database): Class<*>? =
-                when (database) {
-                    Database.POSTGRESQL -> PostgreSQLDialect::class.java
-                    else -> super.determineDatabaseDialectClass(database)
-                }
-        }.apply {
+        HibernateJpaVendorAdapter().apply {
             setDatabase(Database.POSTGRESQL)
             setShowSql(true)
         }
