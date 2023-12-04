@@ -37,7 +37,7 @@ class AppTest {
     }
 
     @Test
-    fun foo() {
+    fun `showcase rollback of transaction`() {
         val ex = assertThrows(RuntimeException::class.java) { foo.foo() }
         assertAll(
             { assertEquals("Kaboom", ex.message) },
