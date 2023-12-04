@@ -52,10 +52,7 @@ dependencies {
 
     // My Dependencies
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta1")
-    
-    // Because of Bug in Hibernate 3.6.0.Final
     implementation 'org.hibernate:hibernate-core:6.4.0.Final'
-
     implementation 'org.springframework.data:spring-data-jpa:3.2.0'
     implementation 'org.postgresql:postgresql:42.7.0'
     testImplementation 'org.springframework:spring-test:6.1.1'
