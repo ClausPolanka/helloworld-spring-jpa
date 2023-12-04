@@ -1,12 +1,11 @@
 package ecommerce
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.extension.*
+import org.springframework.beans.factory.annotation.*
+import org.springframework.test.context.*
+import org.springframework.test.context.junit.jupiter.*
 
 // This extension is used to integrate the Spring test context with the JUnit 5 Jupiter test.
 @ExtendWith(SpringExtension::class)
@@ -15,6 +14,9 @@ class AppTest {
 
     @Autowired
     lateinit var repo: MessageRepo
+
+    @Autowired
+    lateinit var foo: Foo
 
     @Test
     fun appHasAGreeting() {
@@ -30,6 +32,16 @@ class AppTest {
         assertAll(
             { assertEquals(1, msgs.size) },
             { assertEquals("before", msgs[0].text) },
+        )
+        repo.deleteAll()
+    }
+
+    @Test
+    fun foo() {
+        val ex = assertThrows(RuntimeException::class.java) { foo.foo() }
+        assertAll(
+            { assertEquals("Kaboom", ex.message) },
+            { assertEquals(0, repo.findAll().toList().size) }
         )
     }
 }
