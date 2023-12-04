@@ -21,14 +21,6 @@ idea {
 
 repositories {
     mavenCentral()
-
-    // Because of Bug in Hibernate 3.6.0.Final
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-        mavenContent {
-            snapshotsOnly()
-        }
-    }
 }
 
 kotlin {
