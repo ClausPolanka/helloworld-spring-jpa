@@ -50,7 +50,7 @@ dependencies {
     implementation 'org.springframework.data:spring-data-jpa:3.2.4'
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
     testImplementation 'org.springframework:spring-test:6.1.3'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0-RC1'
 }
 
 application {
