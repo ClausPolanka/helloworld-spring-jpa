@@ -1,9 +1,9 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.0.20-RC'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0-RC'
     id 'application'
 
     // https://kotlinlang.org/docs/no-arg-plugin.html#jpa-support
-    id 'org.jetbrains.kotlin.plugin.jpa' version '2.0.20-RC'
+    id 'org.jetbrains.kotlin.plugin.jpa' version '2.1.0-RC'
 
     // Plugin which allows to check for new dependency versions.
     // Can be called with: `./gradlew dependencyUpdates`
@@ -45,7 +45,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
     // My Dependencies
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.20-RC")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0-RC")
     implementation 'org.hibernate:hibernate-core:6.5.3.Final'
     implementation 'org.springframework.data:spring-data-jpa:3.3.5'
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
