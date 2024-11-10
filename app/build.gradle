@@ -49,7 +49,7 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:6.6.0.Final'
     implementation 'org.springframework.data:spring-data-jpa:3.3.2'
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
-    testImplementation 'org.springframework:spring-test:6.1.11'
+    testImplementation 'org.springframework:spring-test:6.1.14'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0-RC1'
 }
 
