@@ -1,7 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.1.0-RC"
+    id("org.jetbrains.kotlin.jvm") version "2.1.0"
     application
-    id("org.jetbrains.kotlin.plugin.jpa") version "2.1.0-RC"
+    id("org.jetbrains.kotlin.plugin.jpa") version "2.1.0"
     id("com.github.ben-manes.versions") version "0.51.0"
     idea
 }
@@ -41,7 +41,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // My Dependencies
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0-RC")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0")
     implementation("org.hibernate:hibernate-core:6.5.3.Final")
     implementation("org.springframework.data:spring-data-jpa:3.3.5")
     runtimeOnly("org.postgresql:postgresql:42.7.3")
