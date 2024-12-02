@@ -43,7 +43,7 @@ dependencies {
     // My Dependencies
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0")
     implementation("org.hibernate:hibernate-core:6.5.3.Final")
-    implementation("org.springframework.data:spring-data-jpa:3.3.5")
+    implementation("org.springframework.data:spring-data-jpa:3.4.0")
     runtimeOnly("org.postgresql:postgresql:42.7.3")
     testImplementation("org.springframework:spring-test:6.1.14")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
