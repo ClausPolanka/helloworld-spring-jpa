@@ -1,15 +1,16 @@
 package ecommerce
 
 import jakarta.persistence.*
-import org.springframework.context.annotation.Bean
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories
-import org.springframework.data.repository.CrudRepository
-import org.springframework.jdbc.datasource.DriverManagerDataSource
+import org.springframework.beans.factory.annotation.*
+import org.springframework.context.annotation.*
+import org.springframework.data.jpa.repository.config.*
+import org.springframework.data.repository.*
+import org.springframework.jdbc.datasource.*
 import org.springframework.orm.jpa.*
-import org.springframework.orm.jpa.vendor.Database
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+import org.springframework.orm.jpa.vendor.*
+import org.springframework.transaction.annotation.*
 import java.util.*
-import javax.sql.DataSource
+import javax.sql.*
 
 class App {
     val greeting: String
@@ -23,6 +24,7 @@ fun main() {
 }
 
 @EnableJpaRepositories
+@EnableTransactionManagement
 class SpringConfiguration {
 
     @Bean
@@ -62,6 +64,9 @@ class SpringConfiguration {
             props["hibernate.hbm2ddl.auto"] = "create"
             setJpaProperties(props)
         }
+
+    @Bean
+    fun foo() = Foo()
 }
 
 @Entity
@@ -77,3 +82,15 @@ class Message(
 }
 
 interface MessageRepo : CrudRepository<Message, Long>
+
+open class Foo {
+
+    @Autowired
+    lateinit var messageRepo: MessageRepo
+
+    @Transactional
+    open fun foo() {
+        messageRepo.save(Message(text = "foo"))
+        throw RuntimeException("Kaboom")
+    }
+}
