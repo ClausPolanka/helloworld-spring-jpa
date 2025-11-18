@@ -8,6 +8,7 @@ import org.springframework.data.repository.*
 import org.springframework.jdbc.datasource.*
 import org.springframework.orm.jpa.*
 import org.springframework.orm.jpa.vendor.*
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.*
 import java.util.*
@@ -67,7 +68,7 @@ class SpringConfiguration {
         }
 
     @Bean
-    fun foo() = Foo()
+    fun foo(repo: MessageRepo) = Foo(repo)
 }
 
 @Entity
@@ -84,11 +85,10 @@ class Message(
 
 interface MessageRepo : CrudRepository<Message, Long>
 
-@Service
-open class Foo {
-
-    @Autowired
-    lateinit var messageRepo: MessageRepo
+@Component
+open class Foo(
+    private val messageRepo: MessageRepo
+) {
 
     @Transactional
     open fun foo() {
