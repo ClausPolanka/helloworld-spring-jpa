@@ -2,7 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.20-Beta1"
     application
     id("org.jetbrains.kotlin.plugin.jpa") version "2.1.20-Beta1"
-    id("com.github.ben-manes.versions") version "0.51.0"
+    id("com.github.ben-manes.versions") version "0.53.0"
     idea
 }
 
