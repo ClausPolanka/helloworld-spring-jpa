@@ -9,18 +9,35 @@ CONTAINER_PORT=5432
 POSTGRES_USER="postgres"
 POSTGRES_PASSWORD="mysecret"
 POSTGRES_DB="postgres"
+TARGET_SCHEMA="helloworld_spring_jpa"
 
-# Detect docker CLI (Docker Desktop or Rancher Desktop dockerd)
 DOCKER_CLI="docker"
 if ! command -v docker >/dev/null 2>&1; then
   echo "❌ Docker not found."
   exit 1
 fi
 
+wait_for_postgres() {
+  echo "⏳ Waiting for PostgreSQL to be ready..."
+  until $DOCKER_CLI exec "$CONTAINER_NAME" pg_isready -U "$POSTGRES_USER" >/dev/null 2>&1; do
+    sleep 0.5
+  done
+  echo "✅ PostgreSQL is ready."
+}
+
+create_schema() {
+  echo "📦 Ensuring schema '$TARGET_SCHEMA' exists..."
+
+  $DOCKER_CLI exec -i "$CONTAINER_NAME" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" <<EOF
+CREATE SCHEMA IF NOT EXISTS $TARGET_SCHEMA;
+EOF
+
+  echo "✅ Schema '$TARGET_SCHEMA' ensured."
+}
+
 start_postgres() {
   echo "🚀 Starting PostgreSQL container '${CONTAINER_NAME}'..."
 
-  # If container already exists, just start it
   if $DOCKER_CLI ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     echo "ℹ️ Container exists, starting..."
     $DOCKER_CLI start "$CONTAINER_NAME"
@@ -35,7 +52,13 @@ start_postgres() {
       -d postgres:${POSTGRES_VERSION}
   fi
 
-  echo "✅ PostgreSQL running on localhost:${HOST_PORT}"
+  echo "🔍 Checking database readiness..."
+  wait_for_postgres
+
+  echo "📐 Creating schema if missing..."
+  create_schema
+
+  echo "🏁 PostgreSQL is up and schema is ready: $TARGET_SCHEMA"
 }
 
 stop_postgres() {
