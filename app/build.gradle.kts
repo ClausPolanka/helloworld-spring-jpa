@@ -1,7 +1,8 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.3.0-Beta2"
+    val kotlinVersion = "2.3.0-Beta2"
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     application
-    id("org.jetbrains.kotlin.plugin.jpa") version "2.3.0-Beta2"
     id("com.github.ben-manes.versions") version "0.53.0"
     idea
 }
@@ -18,7 +19,7 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 tasks.test {
@@ -30,24 +31,19 @@ tasks.test {
 }
 
 dependencies {
-    // Align versions of all Kotlin components
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-
-    // Use the Kotlin JDK 8 standard library.
+    val kotlinVersion = "2.3.0-Beta2"
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-
-    // My Dependencies
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.0-Beta2")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.hibernate:hibernate-core:7.2.0.CR2")
     implementation("org.springframework.data:spring-data-jpa:4.0.0")
     runtimeOnly("org.postgresql:postgresql:42.7.3")
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.springframework:spring-test:6.2.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
-
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
-    // Define the main class for the application.
     mainClass.set("ecommerce.AppKt")
 }
