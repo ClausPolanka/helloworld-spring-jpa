@@ -32,15 +32,24 @@ tasks.test {
 
 dependencies {
     val kotlinVersion = "2.3.0-Beta2"
+    val hibernateVersion = "7.2.0.CR2"
+    val springDataVersion = "4.0.0"
+    val springFrameworkVersion = "6.2.1"
+    val junitVersion = "5.11.4"
+
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.hibernate:hibernate-core:7.2.0.CR2")
-    implementation("org.springframework.data:spring-data-jpa:4.0.0")
+
+    implementation("org.hibernate:hibernate-core:$hibernateVersion")
+    implementation("org.springframework.data:spring-data-jpa:$springDataVersion")
     runtimeOnly("org.postgresql:postgresql:42.7.3")
-    testImplementation(platform("org.junit:junit-bom:5.11.4"))
+
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.springframework:spring-test:6.2.1")
+
+    testImplementation("org.springframework:spring-test:$springFrameworkVersion")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
