@@ -8,6 +8,7 @@ import org.springframework.data.repository.*
 import org.springframework.jdbc.datasource.*
 import org.springframework.orm.jpa.*
 import org.springframework.orm.jpa.vendor.*
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.*
 import java.util.*
 import javax.sql.*
@@ -83,6 +84,7 @@ class Message(
 
 interface MessageRepo : CrudRepository<Message, Long>
 
+@Service
 open class Foo {
 
     @Autowired
