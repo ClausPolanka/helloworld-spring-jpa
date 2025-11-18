@@ -6,10 +6,6 @@ plugins {
     idea
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
 idea {
     module {
         isDownloadJavadoc = true
